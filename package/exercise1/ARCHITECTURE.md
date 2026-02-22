@@ -37,13 +37,15 @@ exercise1/                                  # Monorepo root
 │   │   ├── Controllers/
 │   │   │   ├── PersonController.cs
 │   │   │   ├── AstronautDutyController.cs
+│   │   │   ├── LogsController.cs             # Phase 4 — GET /logs
 │   │   │   ├── BaseResponse.cs
 │   │   │   └── ControllerBaseExtensions.cs
 │   │   ├── Middleware/                    # Phase 3
 │   │   │   └── GlobalExceptionMiddleware.cs
 │   │   └── Business/
-│   │       ├── Behaviors/                 # Phase 3
-│   │       │   └── ValidationBehavior.cs  # MediatR + FluentValidation pipeline
+│   │       ├── Behaviors/                 # Phase 3+4
+│   │       │   ├── ValidationBehavior.cs  # MediatR + FluentValidation pipeline
+│   │       │   └── LoggingBehavior.cs     # MediatR request/response logging
 │   │       ├── Validators/                # Phase 3
 │   │       │   ├── CreatePersonValidator.cs
 │   │       │   └── CreateAstronautDutyValidator.cs
@@ -53,18 +55,21 @@ exercise1/                                  # Monorepo root
 │   │       ├── Queries/
 │   │       │   ├── GetPeople.cs
 │   │       │   ├── GetPersonByName.cs
-│   │       │   └── GetAstronautDutiesByName.cs
+│   │       │   ├── GetAstronautDutiesByName.cs
+│   │       │   └── GetRequestLogs.cs          # Phase 4
 │   │       ├── Data/
 │   │       │   ├── IStargateContext.cs     # Phase 3 — testability interface
 │   │       │   ├── StargateContext.cs
 │   │       │   ├── Person.cs              # + R1 unique index (Phase 2)
 │   │       │   ├── AstronautDetail.cs
-│   │       │   └── AstronautDuty.cs
+│   │       │   ├── AstronautDuty.cs
+│   │       │   └── RequestLog.cs           # Phase 4 — process log entity
 │   │       ├── Dtos/
 │   │       │   └── PersonAstronaut.cs
 │   │       └── Migrations/
 │   │           ├── 20240122..._InitialCreate.cs
-│   │           └── 20260222..._AddPersonNameUniqueIndex.cs
+│   │           ├── 20260222..._AddPersonNameUniqueIndex.cs
+│   │           └── 20260222..._AddRequestLog.cs
 │   └── ui/                                # Angular Application (Phase 6)
 │       ├── Dockerfile                     # Multi-stage Angular + Nginx
 │       ├── .dockerignore

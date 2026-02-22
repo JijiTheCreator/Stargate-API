@@ -23,6 +23,9 @@ namespace StargateAPI.Business.Data
         /// <summary>EF Core DbSet for AstronautDuty entities.</summary>
         DbSet<AstronautDuty> AstronautDuties { get; }
 
+        /// <summary>EF Core DbSet for process log entries.</summary>
+        DbSet<RequestLog> RequestLogs { get; }
+
         /// <summary>Persists all tracked EF Core changes to the database.</summary>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

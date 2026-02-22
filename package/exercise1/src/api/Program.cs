@@ -1,12 +1,18 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using StargateAPI.Business.Behaviors;
 using StargateAPI.Business.Commands;
 using StargateAPI.Business.Data;
 using StargateAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// 4.3: Serilog for structured console logging
+builder.Host.UseSerilog((context, config) =>
+    config.ReadFrom.Configuration(context.Configuration)
+          .WriteTo.Console());
 
 // Add services to the container.
 
@@ -34,12 +40,13 @@ builder.Services.AddScoped<IStargateContext>(sp => sp.GetRequiredService<Stargat
 // 3.2: Register FluentValidation validators from this assembly
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
-// MediatR with pre-processors and validation behavior
+// MediatR with pre-processors, validation, and logging behaviors
 builder.Services.AddMediatR(cfg =>
 {
     cfg.AddRequestPreProcessor<CreateAstronautDutyPreProcessor>();
     cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
-    // 3.2: Validation pipeline — runs FluentValidation before handlers
+    // Pipeline order: Logging → Validation → Handler
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 });
 
@@ -54,6 +61,9 @@ if (app.Environment.IsDevelopment())
 
 // 3.1: Global exception handling — catches unhandled exceptions and returns structured JSON
 app.UseMiddleware<GlobalExceptionMiddleware>();
+
+// 4.3: Serilog request logging
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

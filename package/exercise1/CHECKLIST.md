@@ -57,12 +57,12 @@
 
 ## Phase 4: Process Logging (Task T5)
 
-- [ ] **4.1** Create `RequestLog` entity and DB migration
-- [ ] **4.2** Configure `ILogger<T>` in all handlers and controllers
-- [ ] **4.3** Add Serilog with SQLite sink (or custom DB logger)
-- [ ] **4.4** Log all exceptions with stack trace and request context
-- [ ] **4.5** Log all successful operations with operation type and entity ID
-- [ ] **4.6** Add `/logs` endpoint for querying stored logs (stretch)
+- [x] **4.1** Create `RequestLog` entity and DB migration
+- [x] **4.2** Configure `ILogger<T>` in all handlers and controllers
+- [x] **4.3** Add Serilog with SQLite sink (or custom DB logger)
+- [x] **4.4** Log all exceptions with stack trace and request context
+- [x] **4.5** Log all successful operations with operation type and entity ID
+- [x] **4.6** Add `/logs` endpoint for querying stored logs (stretch)
 
 ---
 
