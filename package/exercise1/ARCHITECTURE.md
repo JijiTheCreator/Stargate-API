@@ -4,48 +4,68 @@
 
 ---
 
-## 1. Project Structure Map
+## 1. Project Structure Map (Current — Post Restructure)
 
 ```
-tech_exercise/
-├── package/
-│   ├── README.md                          # Exercise overview
-│   └── exercise1/
-│       ├── README.md                      # ACTS requirements & rules
-│       ├── SPEC.md                        # [NEW] Business specification
-│       ├── ARCHITECTURE.md                # [NEW] This document
-│       ├── CHECKLIST.md                   # [NEW] Action plan
-│       └── api/                           # .NET 8 Web API
-│           ├── Program.cs                 # Minimal hosting entry point
-│           ├── StargateAPI.csproj         # Project file & NuGet deps
-│           ├── appsettings.json           # SQLite connection string
-│           ├── appsettings.Development.json
-│           ├── Properties/
-│           │   └── launchSettings.json    # Dev server profiles
-│           ├── Controllers/
-│           │   ├── PersonController.cs    # GET /, GET /{name}, POST /
-│           │   ├── AstronautDutyController.cs # GET /{name}, POST /
-│           │   ├── BaseResponse.cs        # Shared response DTO
-│           │   └── ControllerBaseExtensions.cs # Response helper
-│           └── Business/
-│               ├── Commands/
-│               │   ├── CreatePerson.cs         # Command + PreProcessor + Handler
-│               │   └── CreateAstronautDuty.cs  # Command + PreProcessor + Handler
-│               ├── Queries/
-│               │   ├── GetPeople.cs            # Query + Handler
-│               │   ├── GetPersonByName.cs      # Query + Handler
-│               │   └── GetAstronautDutiesByName.cs # Query + Handler
-│               ├── Data/
-│               │   ├── StargateContext.cs       # EF Core DbContext
-│               │   ├── Person.cs               # Entity + Configuration
-│               │   ├── AstronautDetail.cs      # Entity + Configuration
-│               │   └── AstronautDuty.cs        # Entity + Configuration
-│               ├── Dtos/
-│               │   └── PersonAstronaut.cs      # Read model DTO
-│               └── Migrations/
-│                   ├── 20240122154939_InitialCreate.cs
-│                   ├── 20240122154939_InitialCreate.Designer.cs
-│                   └── StargateContextModelSnapshot.cs
+exercise1/                                  # Monorepo root
+├── README.md                              # ACTS requirements & rules (original)
+├── SPEC.md                                # Business specification
+├── ARCHITECTURE.md                        # This document
+├── CHECKLIST.md                           # Action plan
+├── docker-compose.yml                     # Service orchestration
+├── .gitignore                             # Repo-wide ignores
+├── agents/                                # SDD Agent blueprints
+│   ├── BACKEND_API.md
+│   ├── FRONTEND_ANGULAR.md
+│   ├── TESTING.md
+│   ├── DEVOPS_DOCKER.md
+│   ├── DOCUMENTATION.md
+│   └── QA.md
+├── src/
+│   ├── api/                               # .NET 8 Web API
+│   │   ├── Dockerfile                     # Multi-stage .NET build
+│   │   ├── .dockerignore
+│   │   ├── entrypoint.sh                  # Container startup + migrations
+│   │   ├── Program.cs                     # Minimal hosting entry point
+│   │   ├── StargateAPI.csproj             # Project file & NuGet deps
+│   │   ├── appsettings.json               # SQLite connection string
+│   │   ├── appsettings.Development.json
+│   │   ├── Properties/
+│   │   │   └── launchSettings.json
+│   │   ├── Controllers/
+│   │   │   ├── PersonController.cs
+│   │   │   ├── AstronautDutyController.cs
+│   │   │   ├── BaseResponse.cs
+│   │   │   └── ControllerBaseExtensions.cs
+│   │   └── Business/
+│   │       ├── Commands/
+│   │       │   ├── CreatePerson.cs
+│   │       │   └── CreateAstronautDuty.cs
+│   │       ├── Queries/
+│   │       │   ├── GetPeople.cs
+│   │       │   ├── GetPersonByName.cs
+│   │       │   └── GetAstronautDutiesByName.cs
+│   │       ├── Data/
+│   │       │   ├── StargateContext.cs
+│   │       │   ├── Person.cs
+│   │       │   ├── AstronautDetail.cs
+│   │       │   └── AstronautDuty.cs
+│   │       ├── Dtos/
+│   │       │   └── PersonAstronaut.cs
+│   │       └── Migrations/
+│   │           └── ...
+│   └── ui/                                # Angular Application (Phase 6)
+│       ├── Dockerfile                     # Multi-stage Angular + Nginx
+│       ├── .dockerignore
+│       ├── nginx.conf                     # SPA routing + API proxy
+│       └── README.md                      # Scaffold instructions
+├── tests/
+│   └── StargateAPI.Tests/                 # xUnit test project (Phase 5)
+│       └── README.md                      # Scaffold instructions
+├── scripts/
+│   ├── init-db.sh                         # Database initialization
+│   └── run-tests.sh                       # Test runner with coverage
+└── docs/                                  # Supplementary docs (Phase 8)
 ```
 
 ---

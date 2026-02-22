@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+bin/
+obj/
+dist/
+.angular/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Coverage
+coverage/
+TestResults/
+
+# Environment
+.env.local
+.env.production

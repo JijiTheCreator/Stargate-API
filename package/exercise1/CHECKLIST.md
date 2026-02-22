@@ -7,15 +7,15 @@
 
 ## Phase 0: Monorepo & SDD Scaffold
 
-- [ ] **0.1** Restructure repo into monorepo layout (see ARCHITECTURE.md §5)
-- [ ] **0.2** Create `agents/` directory with agent blueprints:
-  - [ ] `agents/BACKEND_API.md` — API bug fixes, rule enforcement, defensive coding
-  - [ ] `agents/FRONTEND_ANGULAR.md` — Angular UI scaffolding and implementation
-  - [ ] `agents/TESTING.md` — Unit test strategy, coverage targets, test harness
-  - [ ] `agents/DEVOPS_DOCKER.md` — Dockerfile, docker-compose, CI/CD readiness
-  - [ ] `agents/DOCUMENTATION.md` — Documentation standards, API docs, README generation
-  - [ ] `agents/QA.md` — Quality assurance checks, regression validation, acceptance criteria
-- [ ] **0.3** Move SPEC.md, ARCHITECTURE.md, CHECKLIST.md to monorepo root
+- [x] **0.1** Restructure repo into monorepo layout (see ARCHITECTURE.md §1)
+- [x] **0.2** Create `agents/` directory with agent blueprints:
+  - [x] `agents/BACKEND_API.md` — API bug fixes, rule enforcement, defensive coding
+  - [x] `agents/FRONTEND_ANGULAR.md` — Angular UI scaffolding and implementation
+  - [x] `agents/TESTING.md` — Unit test strategy, coverage targets, test harness
+  - [x] `agents/DEVOPS_DOCKER.md` — Dockerfile, docker-compose, CI/CD readiness
+  - [x] `agents/DOCUMENTATION.md` — Documentation standards, API docs, README generation
+  - [x] `agents/QA.md` — Quality assurance checks, regression validation, acceptance criteria
+- [x] **0.3** SPEC.md, ARCHITECTURE.md, CHECKLIST.md at monorepo root
 
 ---
 

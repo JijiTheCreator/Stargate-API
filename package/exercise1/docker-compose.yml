@@ -1,0 +1,66 @@
+# =============================================================================
+# Stargate ACTS — Docker Compose
+# =============================================================================
+# Usage:
+#   docker-compose up --build        # Build and start all services
+#   docker-compose down -v           # Stop and remove volumes (clean state)
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # API — .NET 8 Web API (Stargate)
+  # ---------------------------------------------------------------------------
+  api:
+    build:
+      context: ./src/api
+      dockerfile: Dockerfile
+    container_name: stargate-api
+    ports:
+      - "5204:5204"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__StarbaseApiDatabase=Data Source=/data/starbase.db
+    volumes:
+      - stargate-db:/data
+    networks:
+      - stargate-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5204/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+  # ---------------------------------------------------------------------------
+  # UI — Angular Application (served via Nginx)
+  # ---------------------------------------------------------------------------
+  # NOTE: Uncomment once Angular app is scaffolded (Phase 6)
+  #
+  # ui:
+  #   build:
+  #     context: ./src/ui
+  #     dockerfile: Dockerfile
+  #   container_name: stargate-ui
+  #   ports:
+  #     - "4200:80"
+  #   networks:
+  #     - stargate-network
+  #   depends_on:
+  #     api:
+  #       condition: service_healthy
+  #   restart: unless-stopped
+
+  # =============================================================================
+  # Volumes
+  # =============================================================================
+volumes:
+  stargate-db:
+    driver: local
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  stargate-network:
+    driver: bridge
