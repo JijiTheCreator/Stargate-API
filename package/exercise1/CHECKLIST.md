@@ -21,14 +21,14 @@
 
 ## Phase 1: Bug Fixes (from ARCHITECTURE.md §3)
 
-- [ ] **1.1** Fix BUG-1: `AstronautDutyController.GET` dispatches wrong query
+- [x] **1.1** Fix BUG-1: `AstronautDutyController.GET` dispatches wrong query
   - Change `GetPersonByName` → `GetAstronautDutiesByName`
-- [ ] **1.2** Fix BUG-2: SQL injection in all Dapper queries
+- [x] **1.2** Fix BUG-2: SQL injection in all Dapper queries
   - Parameterize every query in `CreateAstronautDuty`, `GetPersonByName`, `GetAstronautDutiesByName`, `GetPeople`
-- [ ] **1.3** Fix BUG-3: `CareerEndDate` set incorrectly for new retired astronauts
+- [x] **1.3** Fix BUG-3: `CareerEndDate` set incorrectly for new retired astronauts
   - Apply `AddDays(-1)` per Rule R7
-- [ ] **1.4** Fix BUG-4: Missing try-catch in `AstronautDutyController.POST`
-- [ ] **1.5** Fix BUG-5: Null reference in `GetAstronautDutiesByName` when person not found
+- [x] **1.4** Fix BUG-4: Missing try-catch in `AstronautDutyController.POST`
+- [x] **1.5** Fix BUG-5: Null reference in `GetAstronautDutiesByName` when person not found
 
 ---
 

@@ -50,16 +50,21 @@ namespace StargateAPI.Business.Commands
         {
             _context = context;
         }
+
         public async Task<CreateAstronautDutyResult> Handle(CreateAstronautDuty request, CancellationToken cancellationToken)
         {
+            // BUG-2 FIX: Original query used string interpolation ($"... WHERE '{request.Name}' = Name"),
+            // which is a critical SQL injection vulnerability — user-supplied input was embedded directly
+            // into the SQL string. Fixed by using Dapper's parameterized query syntax (@Name) with an
+            // anonymous object, which ensures values are passed as bound parameters, never interpolated.
+            var person = await _context.Connection.QueryFirstOrDefaultAsync<Person>(
+                "SELECT * FROM [Person] WHERE Name = @Name", new { request.Name });
 
-            var query = $"SELECT * FROM [Person] WHERE \'{request.Name}\' = Name";
-
-            var person = await _context.Connection.QueryFirstOrDefaultAsync<Person>(query);
-
-            query = $"SELECT * FROM [AstronautDetail] WHERE {person.Id} = PersonId";
-
-            var astronautDetail = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDetail>(query);
+            // BUG-2 FIX: Same SQL injection pattern — person.Id was interpolated directly into the query.
+            // While person.Id is an int (lower injection risk), parameterization is enforced universally
+            // as a defense-in-depth measure to prevent any future refactoring from introducing risk.
+            var astronautDetail = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDetail>(
+                "SELECT * FROM [AstronautDetail] WHERE PersonId = @PersonId", new { PersonId = person.Id });
 
             if (astronautDetail == null)
             {
@@ -70,11 +75,15 @@ namespace StargateAPI.Business.Commands
                 astronautDetail.CareerStartDate = request.DutyStartDate.Date;
                 if (request.DutyTitle == "RETIRED")
                 {
-                    astronautDetail.CareerEndDate = request.DutyStartDate.Date;
+                    // BUG-3 FIX: Original code set CareerEndDate = DutyStartDate.Date (the raw start date).
+                    // Per Rule R7, CareerEndDate should be one day before the RETIRED duty begins, because
+                    // the career ends the day before retirement takes effect — consistent with how existing
+                    // duty DutyEndDate is calculated (new start - 1 day). The "else" branch already had
+                    // AddDays(-1) but this "new astronaut" branch did not, creating an inconsistency.
+                    astronautDetail.CareerEndDate = request.DutyStartDate.AddDays(-1).Date;
                 }
 
                 await _context.AstronautDetails.AddAsync(astronautDetail);
-
             }
             else
             {
@@ -87,9 +96,11 @@ namespace StargateAPI.Business.Commands
                 _context.AstronautDetails.Update(astronautDetail);
             }
 
-            query = $"SELECT * FROM [AstronautDuty] WHERE {person.Id} = PersonId Order By DutyStartDate Desc";
-
-            var astronautDuty = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDuty>(query);
+            // BUG-2 FIX: Same SQL injection pattern as above — person.Id interpolated into query string.
+            // Replaced with parameterized @PersonId for consistency and security.
+            var astronautDuty = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDuty>(
+                "SELECT * FROM [AstronautDuty] WHERE PersonId = @PersonId ORDER BY DutyStartDate DESC",
+                new { PersonId = person.Id });
 
             if (astronautDuty != null)
             {

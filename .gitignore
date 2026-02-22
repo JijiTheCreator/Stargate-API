@@ -1,0 +1,39 @@
+# =============================================================================
+# .gitignore — Stargate ACTS Monorepo
+# =============================================================================
+
+# .NET Build Outputs
+**/bin/
+**/obj/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# IDE / Editor
+.vs/
+.vscode/
+*.user
+*.suo
+.idea/
+
+# Node / Angular
+**/node_modules/
+**/dist/
+**/.angular/
+
+# OS Files
+Thumbs.db
+.DS_Store
+
+# Coverage & Test Results
+**/coverage/
+**/TestResults/
+
+# Environment
+.env.local
+.env.production
+
+# Logs
+*.log

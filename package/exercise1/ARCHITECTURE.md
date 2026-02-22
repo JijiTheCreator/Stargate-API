@@ -7,6 +7,8 @@
 ## 1. Project Structure Map (Current — Post Restructure)
 
 ```
+tech_exercise/                                # Git repo root
+├── .gitignore                             # Repo-wide ignores (bin/, obj/, node_modules/, *.db)
 exercise1/                                  # Monorepo root
 ├── README.md                              # ACTS requirements & rules (original)
 ├── SPEC.md                                # Business specification
@@ -100,12 +102,12 @@ exercise1/                                  # Monorepo root
 
 ## 3. Known Bugs (Code Review Findings)
 
-> [!CAUTION]
-> The following bugs exist in the current codebase and **must** be resolved.
+> [!NOTE]
+> All 5 bugs identified during code review have been **RESOLVED** in Phase 1. Each fix is annotated with a `// BUG-N FIX:` comment in the source code.
 
-### BUG-1: Wrong Query in AstronautDutyController.GET
+### BUG-1: Wrong Query in AstronautDutyController.GET — ✅ RESOLVED
 
-**File**: [AstronautDutyController.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/api/Controllers/AstronautDutyController.cs#L24)
+**File**: [AstronautDutyController.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/src/api/Controllers/AstronautDutyController.cs#L25)
 
 The `GetAstronautDutiesByName` action dispatches `GetPersonByName` instead of `GetAstronautDutiesByName`:
 
@@ -114,9 +116,9 @@ The `GetAstronautDutiesByName` action dispatches `GetPersonByName` instead of `G
 + var result = await _mediator.Send(new GetAstronautDutiesByName()
 ```
 
-### BUG-2: SQL Injection in Dapper Queries
+### BUG-2: SQL Injection in Dapper Queries — ✅ RESOLVED
 
-**Files**: `CreateAstronautDuty.cs`, `GetPersonByName.cs`, `GetAstronautDutiesByName.cs`
+**Files**: `src/api/Business/Commands/CreateAstronautDuty.cs`, `src/api/Business/Queries/GetPersonByName.cs`, `src/api/Business/Queries/GetAstronautDutiesByName.cs`
 
 All Dapper queries use string interpolation, enabling SQL injection:
 
@@ -127,9 +129,9 @@ All Dapper queries use string interpolation, enabling SQL injection:
 + var person = await _context.Connection.QueryFirstOrDefaultAsync<Person>(query, new { request.Name });
 ```
 
-### BUG-3: CareerEndDate Logic Inconsistency
+### BUG-3: CareerEndDate Logic Inconsistency — ✅ RESOLVED
 
-**File**: [CreateAstronautDuty.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/api/Business/Commands/CreateAstronautDuty.cs#L71-L85)
+**File**: [CreateAstronautDuty.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/src/api/Business/Commands/CreateAstronautDuty.cs#L78)
 
 When a *new* astronaut retires (no prior `AstronautDetail`), `CareerEndDate` is set to `DutyStartDate`. But per **Rule R7**, it should be set to `DutyStartDate - 1 day`:
 
@@ -141,15 +143,15 @@ When a *new* astronaut retires (no prior `AstronautDetail`), `CareerEndDate` is 
   }
 ```
 
-### BUG-4: Missing Error Handling in AstronautDutyController.POST
+### BUG-4: Missing Error Handling in AstronautDutyController.POST — ✅ RESOLVED
 
-**File**: [AstronautDutyController.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/api/Controllers/AstronautDutyController.cs#L42-L47)
+**File**: [AstronautDutyController.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/src/api/Controllers/AstronautDutyController.cs#L49)
 
 The `CreateAstronautDuty` POST action has no try-catch, unlike every other action. An unhandled exception will return a 500 with a stack trace.
 
-### BUG-5: Null Reference Risk in GetAstronautDutiesByName
+### BUG-5: Null Reference Risk in GetAstronautDutiesByName — ✅ RESOLVED
 
-**File**: [GetAstronautDutiesByName.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/api/Business/Queries/GetAstronautDutiesByName.cs#L30-L34)
+**File**: [GetAstronautDutiesByName.cs](file:///c:/Users/herre/source/technical-exercise/tech_exercise_v.0.0.4/tech_exercise/package/exercise1/src/api/Business/Queries/GetAstronautDutiesByName.cs#L37)
 
 If `person` is `null` (name not found), `person.PersonId` on line 34 will throw a `NullReferenceException`.
 

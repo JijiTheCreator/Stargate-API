@@ -23,11 +23,16 @@ namespace StargateAPI.Business.Queries
         {
             var result = new GetPersonByNameResult();
 
-            var query = $"SELECT a.Id as PersonId, a.Name, b.CurrentRank, b.CurrentDutyTitle, b.CareerStartDate, b.CareerEndDate FROM [Person] a LEFT JOIN [AstronautDetail] b on b.PersonId = a.Id WHERE '{request.Name}' = a.Name";
+            // BUG-2 FIX: Original query used string interpolation ($"... WHERE '{request.Name}' = a.Name"),
+            // which allowed SQL injection via the name parameter. Fixed with Dapper's @Name parameterization.
+            // Also switched from QueryAsync + FirstOrDefault() to QueryFirstOrDefaultAsync for efficiency —
+            // the original fetched all matching rows into a list only to take the first one; this retrieves
+            // at most one row directly from the database, reducing memory allocation and query overhead.
+            var person = await _context.Connection.QueryFirstOrDefaultAsync<PersonAstronaut>(
+                "SELECT a.Id as PersonId, a.Name, b.CurrentRank, b.CurrentDutyTitle, b.CareerStartDate, b.CareerEndDate FROM [Person] a LEFT JOIN [AstronautDetail] b on b.PersonId = a.Id WHERE a.Name = @Name",
+                new { request.Name });
 
-            var person = await _context.Connection.QueryAsync<PersonAstronaut>(query);
-
-            result.Person = person.FirstOrDefault();
+            result.Person = person;
 
             return result;
         }
