@@ -13,8 +13,9 @@ namespace StargateAPI.Business.Queries
 
     public class GetPersonByNameHandler : IRequestHandler<GetPersonByName, GetPersonByNameResult>
     {
-        private readonly StargateContext _context;
-        public GetPersonByNameHandler(StargateContext context)
+        // CONVENTION: Dapper for read operations (query performance)
+        private readonly IStargateContext _context;
+        public GetPersonByNameHandler(IStargateContext context)
         {
             _context = context;
         }

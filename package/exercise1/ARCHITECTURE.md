@@ -39,7 +39,14 @@ exercise1/                                  # Monorepo root
 │   │   │   ├── AstronautDutyController.cs
 │   │   │   ├── BaseResponse.cs
 │   │   │   └── ControllerBaseExtensions.cs
+│   │   ├── Middleware/                    # Phase 3
+│   │   │   └── GlobalExceptionMiddleware.cs
 │   │   └── Business/
+│   │       ├── Behaviors/                 # Phase 3
+│   │       │   └── ValidationBehavior.cs  # MediatR + FluentValidation pipeline
+│   │       ├── Validators/                # Phase 3
+│   │       │   ├── CreatePersonValidator.cs
+│   │       │   └── CreateAstronautDutyValidator.cs
 │   │       ├── Commands/
 │   │       │   ├── CreatePerson.cs
 │   │       │   └── CreateAstronautDuty.cs
@@ -48,14 +55,16 @@ exercise1/                                  # Monorepo root
 │   │       │   ├── GetPersonByName.cs
 │   │       │   └── GetAstronautDutiesByName.cs
 │   │       ├── Data/
+│   │       │   ├── IStargateContext.cs     # Phase 3 — testability interface
 │   │       │   ├── StargateContext.cs
-│   │       │   ├── Person.cs
+│   │       │   ├── Person.cs              # + R1 unique index (Phase 2)
 │   │       │   ├── AstronautDetail.cs
 │   │       │   └── AstronautDuty.cs
 │   │       ├── Dtos/
 │   │       │   └── PersonAstronaut.cs
 │   │       └── Migrations/
-│   │           └── ...
+│   │           ├── 20240122..._InitialCreate.cs
+│   │           └── 20260222..._AddPersonNameUniqueIndex.cs
 │   └── ui/                                # Angular Application (Phase 6)
 │       ├── Dockerfile                     # Multi-stage Angular + Nginx
 │       ├── .dockerignore

@@ -21,9 +21,9 @@ namespace StargateAPI.Business.Commands
 
     public class CreateAstronautDutyPreProcessor : IRequestPreProcessor<CreateAstronautDuty>
     {
-        private readonly StargateContext _context;
+        private readonly IStargateContext _context;
 
-        public CreateAstronautDutyPreProcessor(StargateContext context)
+        public CreateAstronautDutyPreProcessor(IStargateContext context)
         {
             _context = context;
         }
@@ -56,9 +56,11 @@ namespace StargateAPI.Business.Commands
 
     public class CreateAstronautDutyHandler : IRequestHandler<CreateAstronautDuty, CreateAstronautDutyResult>
     {
-        private readonly StargateContext _context;
+        // CONVENTION: EF Core for write operations (change tracking, migrations)
+        // CONVENTION: Dapper for read operations within the same handler (query performance)
+        private readonly IStargateContext _context;
 
-        public CreateAstronautDutyHandler(StargateContext context)
+        public CreateAstronautDutyHandler(IStargateContext context)
         {
             _context = context;
         }

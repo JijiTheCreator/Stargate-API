@@ -46,12 +46,12 @@
 
 ## Phase 3: Defensive Coding & Architecture Improvements
 
-- [ ] **3.1** Add global exception handling middleware
-- [ ] **3.2** Introduce FluentValidation via MediatR pipeline behavior
-- [ ] **3.3** Add input validation (null checks, string length, date validation)
-- [ ] **3.4** Add CORS configuration for Angular frontend
-- [ ] **3.5** Introduce `IStargateContext` interface for testability
-- [ ] **3.6** Formalize EF Core (writes) / Dapper (reads) convention
+- [x] **3.1** Add global exception handling middleware
+- [x] **3.2** Introduce FluentValidation via MediatR pipeline behavior
+- [x] **3.3** Add input validation (null checks, string length, date validation)
+- [x] **3.4** Add CORS configuration for Angular frontend
+- [x] **3.5** Introduce `IStargateContext` interface for testability
+- [x] **3.6** Formalize EF Core (writes) / Dapper (reads) convention
 
 ---
 

@@ -3,7 +3,7 @@ using System.Data;
 
 namespace StargateAPI.Business.Data
 {
-    public class StargateContext : DbContext
+    public class StargateContext : DbContext, IStargateContext
     {
         public IDbConnection Connection => Database.GetDbConnection();
         public DbSet<Person> People { get; set; }
