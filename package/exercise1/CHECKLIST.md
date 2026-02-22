@@ -34,13 +34,13 @@
 
 ## Phase 2: Rule Enforcement (SPEC.md §3)
 
-- [ ] **2.1** R1 — Enforce Person name uniqueness (DB constraint + validation)
-- [ ] **2.2** R2 — Ensure no Astronaut records exist for non-assigned people
-- [ ] **2.3** R3 — Validate only one current duty at a time
-- [ ] **2.4** R4 — Ensure current duty has null `DutyEndDate`
-- [ ] **2.5** R5 — Previous duty end date = new start date − 1 day
-- [ ] **2.6** R6 — `RETIRED` title sets retirement status
-- [ ] **2.7** R7 — Career end date = retired start date − 1 day
+- [x] **2.1** R1 — Enforce Person name uniqueness (DB constraint + validation)
+- [x] **2.2** R2 — Ensure no Astronaut records exist for non-assigned people
+- [x] **2.3** R3 — Validate only one current duty at a time
+- [x] **2.4** R4 — Ensure current duty has null `DutyEndDate`
+- [x] **2.5** R5 — Previous duty end date = new start date − 1 day
+- [x] **2.6** R6 — `RETIRED` title sets retirement status
+- [x] **2.7** R7 — Career end date = retired start date − 1 day
 
 ---
 

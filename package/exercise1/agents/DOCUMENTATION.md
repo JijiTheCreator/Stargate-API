@@ -79,12 +79,24 @@ The root `README.md` must contain these sections in order:
 
 Must cover:
 1. Clone and install prerequisites
-2. Generate the database
-3. Run the API (with expected output)
-4. Run the UI (with expected output)
-5. Run tests (with expected output)
-6. Docker quickstart
-7. Key architectural concepts (link to ARCHITECTURE.md)
+2. **Install required global CLI tools** (see Development Tool Dependencies below)
+3. Generate the database
+4. Run the API (with expected output)
+5. Run the UI (with expected output)
+6. Run tests (with expected output)
+7. Docker quickstart
+8. Key architectural concepts (link to ARCHITECTURE.md)
+
+### Development Tool Dependencies
+
+> [!IMPORTANT]
+> The following global tools are **not** bundled with the project and must be documented in both `README.md §4 Prerequisites` and `docs/ONBOARDING.md §2`.
+
+| Tool | Install Command | Purpose |
+|---|---|---|
+| `dotnet-ef` | `dotnet tool install --global dotnet-ef` | EF Core migrations (schema changes, `dotnet ef migrations add`) |
+
+When new global tools are added during development, this table must be updated and the corresponding documentation refreshed.
 
 ### Deployment Runbook (`docs/DEPLOYMENT.md`)
 

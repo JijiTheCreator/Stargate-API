@@ -32,11 +32,23 @@ namespace StargateAPI.Business.Commands
         {
             var person = _context.People.AsNoTracking().FirstOrDefault(z => z.Name == request.Name);
 
-            if (person is null) throw new BadHttpRequestException("Bad Request");
+            // R2: A Person must exist before they can receive astronaut duty assignments.
+            // Without a valid Person record, there is no entity to attach duties to.
+            if (person is null)
+                throw new BadHttpRequestException($"Person '{request.Name}' not found. (Rule R2: Person must exist)");
 
+            // R3: A Person will only ever hold one current duty at a time.
+            // Reject exact duplicate duty assignments (same title + same start date).
             var verifyNoPreviousDuty = _context.AstronautDuties.FirstOrDefault(z => z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
 
-            if (verifyNoPreviousDuty is not null) throw new BadHttpRequestException("Bad Request");
+            if (verifyNoPreviousDuty is not null)
+                throw new BadHttpRequestException($"Duty '{request.DutyTitle}' starting {request.DutyStartDate:yyyy-MM-dd} already exists for '{request.Name}'. (Rule R3: One duty at a time)");
+
+            // R6: A retired astronaut cannot receive new non-RETIRED duty assignments.
+            // Once a Person's current duty is RETIRED, the only valid assignment is another RETIRED entry.
+            var astronautDetail = _context.AstronautDetails.AsNoTracking().FirstOrDefault(z => z.PersonId == person.Id);
+            if (astronautDetail != null && astronautDetail.CurrentDutyTitle == "RETIRED" && request.DutyTitle != "RETIRED")
+                throw new BadHttpRequestException($"Person '{request.Name}' is retired and cannot receive new duties. (Rule R6: Retirement is permanent)");
 
             return Task.CompletedTask;
         }
@@ -75,11 +87,10 @@ namespace StargateAPI.Business.Commands
                 astronautDetail.CareerStartDate = request.DutyStartDate.Date;
                 if (request.DutyTitle == "RETIRED")
                 {
-                    // BUG-3 FIX: Original code set CareerEndDate = DutyStartDate.Date (the raw start date).
-                    // Per Rule R7, CareerEndDate should be one day before the RETIRED duty begins, because
-                    // the career ends the day before retirement takes effect — consistent with how existing
-                    // duty DutyEndDate is calculated (new start - 1 day). The "else" branch already had
-                    // AddDays(-1) but this "new astronaut" branch did not, creating an inconsistency.
+                    // BUG-3 FIX / R7: Career end date is one day before the RETIRED duty start date.
+                    // Original code set CareerEndDate = DutyStartDate.Date (the raw start date).
+                    // Per Rule R7, CareerEndDate should be one day before retirement takes effect,
+                    // consistent with the "else" branch and with how DutyEndDate is calculated (R5).
                     astronautDetail.CareerEndDate = request.DutyStartDate.AddDays(-1).Date;
                 }
 
@@ -87,10 +98,12 @@ namespace StargateAPI.Business.Commands
             }
             else
             {
+                // R3: Overwrite current duty snapshot — a Person holds only one current duty at a time.
                 astronautDetail.CurrentDutyTitle = request.DutyTitle;
                 astronautDetail.CurrentRank = request.Rank;
                 if (request.DutyTitle == "RETIRED")
                 {
+                    // R6 + R7: Mark career as ended one day before the RETIRED duty start date.
                     astronautDetail.CareerEndDate = request.DutyStartDate.AddDays(-1).Date;
                 }
                 _context.AstronautDetails.Update(astronautDetail);
@@ -104,10 +117,15 @@ namespace StargateAPI.Business.Commands
 
             if (astronautDuty != null)
             {
+                // R5: Previous duty end date is set to the day before the new duty start date.
+                // This closes the previous duty assignment when a new one is received.
                 astronautDuty.DutyEndDate = request.DutyStartDate.AddDays(-1).Date;
                 _context.AstronautDuties.Update(astronautDuty);
             }
 
+            // R4: A Person's current duty will not have a Duty End Date (null).
+            // New duty records are always created with DutyEndDate = null, establishing them
+            // as the current active duty. The previous duty is closed above (R5).
             var newAstronautDuty = new AstronautDuty()
             {
                 PersonId = person.Id,
