@@ -77,7 +77,15 @@ exercise1/                                  # Monorepo root
 │       └── README.md                      # Scaffold instructions
 ├── tests/
 │   └── StargateAPI.Tests/                 # xUnit test project (Phase 5)
-│       └── README.md                      # Scaffold instructions
+│       ├── Fixtures/
+│       │   └── TestDatabaseFixture.cs     # In-memory SQLite fixture
+│       ├── CreatePersonPreProcessorTests.cs
+│       ├── CreatePersonHandlerTests.cs
+│       ├── CreateAstronautDutyPreProcessorTests.cs
+│       ├── CreateAstronautDutyHandlerTests.cs
+│       ├── GetAstronautDutiesByNameHandlerTests.cs
+│       ├── GetPeopleHandlerTests.cs
+│       └── GetPersonByNameHandlerTests.cs
 ├── scripts/
 │   ├── init-db.sh                         # Database initialization
 │   └── run-tests.sh                       # Test runner with coverage

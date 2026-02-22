@@ -68,16 +68,16 @@
 
 ## Phase 5: Unit Testing (Task T4)
 
-- [ ] **5.1** Create `tests/StargateAPI.Tests/` xUnit project
-- [ ] **5.2** Add test infrastructure (Moq, in-memory SQLite, test fixtures)
-- [ ] **5.3** Write tests for highest-impact methods:
-  - [ ] `CreateAstronautDutyHandler` — all 7 rules exercised
-  - [ ] `CreateAstronautDutyPreProcessor` — validation paths
-  - [ ] `CreatePersonHandler` — duplicate name rejection
-  - [ ] `GetAstronautDutiesByNameHandler` — null person, valid person
-  - [ ] `GetPeopleHandler` — empty DB, populated DB
-- [ ] **5.4** Achieve >50% code coverage
-- [ ] **5.5** Add coverage report generation to build pipeline
+- [x] **5.1** Create `tests/StargateAPI.Tests/` xUnit project
+- [x] **5.2** Add test infrastructure (Moq, in-memory SQLite, test fixtures)
+- [x] **5.3** Write tests for highest-impact methods:
+  - [x] `CreateAstronautDutyHandler` — all 7 rules exercised
+  - [x] `CreateAstronautDutyPreProcessor` — validation paths
+  - [x] `CreatePersonHandler` — duplicate name rejection
+  - [x] `GetAstronautDutiesByNameHandler` — null person, valid person
+  - [x] `GetPeopleHandler` — empty DB, populated DB
+- [x] **5.4** Achieve >50% code coverage (Targeted at business logic/handlers)
+- [x] **5.5** Add coverage report generation to build pipeline
 
 ---
 
