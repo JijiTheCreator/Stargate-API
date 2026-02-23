@@ -6,6 +6,9 @@ using System.Net;
 
 namespace StargateAPI.Controllers
 {
+    /// <summary>
+    /// Manages Astronaut Duty assignments — retrieve duty history and assign new duties.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class AstronautDutyController : ControllerBase
@@ -16,6 +19,11 @@ namespace StargateAPI.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Retrieves all astronaut duty assignments for a person, ordered by start date.
+        /// </summary>
+        /// <param name="name">The name of the person whose duties to retrieve.</param>
+        /// <returns>The person's astronaut detail and full duty history.</returns>
         [HttpGet("{name}")]
         public async Task<IActionResult> GetAstronautDutiesByName(string name)
         {
@@ -43,6 +51,11 @@ namespace StargateAPI.Controllers
             }            
         }
 
+        /// <summary>
+        /// Creates a new astronaut duty assignment. Enforces business rules R2–R7.
+        /// </summary>
+        /// <param name="request">The duty assignment details (name, rank, title, start date).</param>
+        /// <returns>The ID of the newly created duty record.</returns>
         [HttpPost("")]
         public async Task<IActionResult> CreateAstronautDuty([FromBody] CreateAstronautDuty request)
         {

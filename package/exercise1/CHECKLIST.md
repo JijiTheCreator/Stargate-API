@@ -106,18 +106,18 @@
 - [x] **7.4** Database auto-generation on container startup (EF migrations)
 - [x] **7.5** Health check endpoints
 - [x] **7.6** Environment variable configuration
-- [ ] **7.7** Verify end-to-end launch: `docker-compose up`
+- [x] **7.7** Verify end-to-end launch: `docker-compose up`
 
 ---
 
 ## Phase 8: Documentation (Post-Implementation)
 
-- [ ] **8.1** Generate API documentation (Swagger/OpenAPI export)
-- [ ] **8.2** Write developer onboarding guide (`docs/ONBOARDING.md`)
-- [ ] **8.3** Document all architectural decisions and conventions
-- [ ] **8.4** Create deployment runbook (`docs/DEPLOYMENT.md`)
-- [ ] **8.5** Update root `README.md` with project overview, setup instructions, and usage
-- [ ] **8.6** Add inline code documentation for all public methods and classes
+- [x] **8.1** Generate API documentation (Swagger/OpenAPI export)
+- [x] **8.2** Write developer onboarding guide (`docs/ONBOARDING.md`)
+- [x] **8.3** Document all architectural decisions and conventions
+- [x] **8.4** Create deployment runbook (`docs/DEPLOYMENT.md`)
+- [x] **8.5** Create project overview (`docs/README.md`) with tech stack, prerequisites, and usage
+- [x] **8.6** Add inline code documentation for all public methods and classes
 
 ---
 

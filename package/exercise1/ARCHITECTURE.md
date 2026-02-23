@@ -15,6 +15,7 @@ exercise1/                                  # Monorepo root
 ├── ARCHITECTURE.md                        # This document
 ├── CHECKLIST.md                           # Action plan
 ├── docker-compose.yml                     # Service orchestration
+├── .env                                   # Docker environment overrides (gitignored)
 ├── .gitignore                             # Repo-wide ignores
 ├── agents/                                # SDD Agent blueprints
 │   ├── BACKEND_API.md
@@ -37,7 +38,7 @@ exercise1/                                  # Monorepo root
 │   │   ├── Controllers/
 │   │   │   ├── PersonController.cs
 │   │   │   ├── AstronautDutyController.cs
-│   │   │   ├── LogsController.cs             # Phase 4 — GET /logs
+│   │   │   ├── LogsController.cs             # Phase 4 — GET /Logs
 │   │   │   ├── BaseResponse.cs
 │   │   │   └── ControllerBaseExtensions.cs
 │   │   ├── Middleware/                    # Phase 3
@@ -69,7 +70,8 @@ exercise1/                                  # Monorepo root
 │   │       └── Migrations/
 │   │           ├── 20240122..._InitialCreate.cs
 │   │           ├── 20260222..._AddPersonNameUniqueIndex.cs
-│   │           └── 20260222..._AddRequestLog.cs
+│   │           ├── 20260222..._AddRequestLog.cs
+│   │           └── StargateContextModelSnapshot.cs
 │   └── ui/                                # Angular 17 Application (Phase 6)
 │       ├── Dockerfile                     # Multi-stage Angular + Nginx
 │       ├── .dockerignore
@@ -78,7 +80,7 @@ exercise1/                                  # Monorepo root
 │       ├── angular.json                   # Workspace config
 │       ├── tsconfig.json                  # Strict TypeScript
 │       ├── tsconfig.app.json
-│       ├── proxy.conf.json                # /api → localhost:5001
+│       ├── proxy.conf.json                # /api → localhost:5204
 │       └── src/
 │           ├── index.html
 │           ├── main.ts                    # Standalone bootstrap
@@ -117,6 +119,9 @@ exercise1/                                  # Monorepo root
 │   ├── init-db.sh                         # Database initialization
 │   └── run-tests.sh                       # Test runner with coverage
 └── docs/                                  # Supplementary docs (Phase 8)
+    ├── README.md                          # Project overview & tech stack
+    ├── ONBOARDING.md                      # Developer quickstart guide
+    └── DEPLOYMENT.md                      # Deployment runbook
 ```
 
 ---

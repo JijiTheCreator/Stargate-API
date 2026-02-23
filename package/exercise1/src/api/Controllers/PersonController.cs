@@ -6,7 +6,9 @@ using System.Net;
 
 namespace StargateAPI.Controllers
 {
-   
+    /// <summary>
+    /// Manages Person entities — create and retrieve people tracked in ACTS.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class PersonController : ControllerBase
@@ -17,6 +19,10 @@ namespace StargateAPI.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Retrieves all people in the system, including their current astronaut detail if assigned.
+        /// </summary>
+        /// <returns>A list of all people with astronaut information.</returns>
         [HttpGet("")]
         public async Task<IActionResult> GetPeople()
         {
@@ -40,6 +46,11 @@ namespace StargateAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a single person by name, including their current astronaut detail if assigned.
+        /// </summary>
+        /// <param name="name">The unique name of the person to retrieve.</param>
+        /// <returns>The person with astronaut information, or 404 if not found.</returns>
         [HttpGet("{name}")]
         public async Task<IActionResult> GetPersonByName(string name)
         {
@@ -63,6 +74,11 @@ namespace StargateAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new person. Names must be unique per business rule R1.
+        /// </summary>
+        /// <param name="name">The unique name for the new person.</param>
+        /// <returns>The ID of the newly created person.</returns>
         [HttpPost("")]
         public async Task<IActionResult> CreatePerson([FromBody] string name)
         {
