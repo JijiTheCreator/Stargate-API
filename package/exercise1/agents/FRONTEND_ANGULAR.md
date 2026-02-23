@@ -124,6 +124,18 @@ You own the following directories and files:
 - Handle loading, success, and error states for every API call
 - Configure the API base URL via `environment.ts`
 
+### Security Hardening
+
+> [!IMPORTANT]
+> Enforced by `agents/CYBERSECURITY.md`. Violations are flagged during Phase 9 QA.
+
+- **XSS Prevention**: Never use `innerHTML` or `bypassSecurityTrustHtml` — Angular's built-in sanitization must remain active
+- **Dependency Audit**: Run `npm audit --production` before releases — zero critical/high vulnerabilities allowed
+- **API URL Configuration**: Never hardcode API URLs in components — use proxy or environment configuration
+- **Error Display**: Never show raw API error messages or stack traces to users — display user-friendly messages
+- **Sensitive Data**: Never log or console.log sensitive user data (PII, credentials)
+- **Agent Boundary**: Do not modify files outside `src/ui/`. Request changes from the owning agent via the Interaction Protocol
+
 ---
 
 ## 4. Definition of Done

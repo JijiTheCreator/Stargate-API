@@ -70,10 +70,29 @@ You own the following files and directories:
 
 ### Security
 
+> [!IMPORTANT]
+> Enforced by `agents/CYBERSECURITY.md`. Violations are flagged during Phase 9 QA.
+
+**Container Hardening**:
 - Do not run containers as root — use `USER` directive in Dockerfiles
 - Do not expose unnecessary ports
 - Do not include dev dependencies in production images
 - Do not copy `.git/`, `node_modules/`, `bin/`, `obj/` into images (use `.dockerignore`)
+- Pin all base image tags to specific versions — never use `latest`
+- Verify with `docker history <image>` that no secrets appear in image layers
+
+**HTTP Security Headers** (Nginx):
+- Set `X-Content-Type-Options: nosniff`
+- Set `X-Frame-Options: DENY`
+- Set `X-XSS-Protection: 1; mode=block`
+- Set `Referrer-Policy: strict-origin-when-cross-origin`
+
+**Secrets Hygiene**:
+- `.env` must be in `.gitignore` — never commit environment overrides
+- Connection strings must come from environment variables, not baked into Docker layers
+- No hardcoded credentials in Dockerfiles, entrypoint scripts, or compose files
+
+**Agent Boundary**: Do not modify application source code. Request changes from the owning agent via the Interaction Protocol
 
 ### Monorepo Structure
 

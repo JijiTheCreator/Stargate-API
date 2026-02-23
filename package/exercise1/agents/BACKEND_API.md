@@ -91,6 +91,18 @@ You own the following directories and files:
 - In development: allow `http://localhost:4200`
 - Use a named CORS policy: `"AllowAngularApp"`
 
+### Security Hardening
+
+> [!IMPORTANT]
+> Enforced by `agents/CYBERSECURITY.md`. Violations are flagged during Phase 9 QA.
+
+- **SQL Injection Prevention**: All Dapper queries must use `@Param` parameterized syntax — string interpolation in SQL is a **blocking defect**
+- **Error Disclosure**: `GlobalExceptionMiddleware` must never return stack traces in `Production` environment — return structured `BaseResponse` only
+- **Input Sanitization**: FluentValidation must enforce max string lengths and reject control characters
+- **CORS Lockdown**: Never use `AllowAnyOrigin()` — always whitelist specific origins
+- **Secrets**: Connection strings and credentials must come from environment variables, never hardcoded in `appsettings.json`
+- **Agent Boundary**: Do not modify files outside your ownership directories. Request changes from the owning agent via the Interaction Protocol
+
 ---
 
 ## 4. Definition of Done

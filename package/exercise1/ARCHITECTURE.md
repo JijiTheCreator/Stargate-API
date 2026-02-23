@@ -23,7 +23,8 @@ exercise1/                                  # Monorepo root
 │   ├── TESTING.md
 │   ├── DEVOPS_DOCKER.md
 │   ├── DOCUMENTATION.md
-│   └── QA.md
+│   ├── QA.md
+│   └── CYBERSECURITY.md
 ├── src/
 │   ├── api/                               # .NET 8 Web API
 │   │   ├── Dockerfile                     # Multi-stage .NET build
@@ -121,7 +122,8 @@ exercise1/                                  # Monorepo root
 └── docs/                                  # Supplementary docs (Phase 8)
     ├── README.md                          # Project overview & tech stack
     ├── ONBOARDING.md                      # Developer quickstart guide
-    └── DEPLOYMENT.md                      # Deployment runbook
+    ├── DEPLOYMENT.md                      # Deployment runbook
+    └── SECURITY_REPORT.md                 # Phase 9 security findings
 ```
 
 ---
