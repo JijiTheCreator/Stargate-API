@@ -70,11 +70,38 @@ exercise1/                                  # Monorepo root
 │   │           ├── 20240122..._InitialCreate.cs
 │   │           ├── 20260222..._AddPersonNameUniqueIndex.cs
 │   │           └── 20260222..._AddRequestLog.cs
-│   └── ui/                                # Angular Application (Phase 6)
+│   └── ui/                                # Angular 17 Application (Phase 6)
 │       ├── Dockerfile                     # Multi-stage Angular + Nginx
 │       ├── .dockerignore
 │       ├── nginx.conf                     # SPA routing + API proxy
-│       └── README.md                      # Scaffold instructions
+│       ├── package.json                   # Angular 17 + Material deps
+│       ├── angular.json                   # Workspace config
+│       ├── tsconfig.json                  # Strict TypeScript
+│       ├── tsconfig.app.json
+│       ├── proxy.conf.json                # /api → localhost:5001
+│       └── src/
+│           ├── index.html
+│           ├── main.ts                    # Standalone bootstrap
+│           ├── styles.scss                # Deep-space theme
+│           └── app/
+│               ├── app.component.ts       # Toolbar + router-outlet
+│               ├── app.routes.ts          # Lazy-loaded routes
+│               ├── models/
+│               │   └── api.models.ts      # TypeScript API interfaces
+│               ├── services/
+│               │   ├── person.service.ts
+│               │   └── astronaut-duty.service.ts
+│               └── components/
+│                   ├── people-list/
+│                   │   └── people-list.component.ts
+│                   ├── person-detail/
+│                   │   └── person-detail.component.ts
+│                   ├── duty-history/
+│                   │   └── duty-history.component.ts
+│                   ├── add-duty-form/
+│                   │   └── add-duty-form.component.ts
+│                   └── add-person-dialog/
+│                       └── add-person-dialog.component.ts
 ├── tests/
 │   └── StargateAPI.Tests/                 # xUnit test project (Phase 5)
 │       ├── Fixtures/

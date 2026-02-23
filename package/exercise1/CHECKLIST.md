@@ -83,18 +83,18 @@
 
 ## Phase 6: Frontend — Angular UI (Tasks UI-1 to UI-3)
 
-- [ ] **6.1** Scaffold Angular project in `src/ui/`
-- [ ] **6.2** Create core services:
-  - [ ] `PersonService` — calls `/Person` endpoints
-  - [ ] `AstronautDutyService` — calls `/AstronautDuty` endpoints
-- [ ] **6.3** Create components:
-  - [ ] `PeopleListComponent` — displays all people
-  - [ ] `PersonDetailComponent` — displays person + astronaut info
-  - [ ] `DutyHistoryComponent` — displays duty timeline
-  - [ ] `AddDutyFormComponent` — form to add new astronaut duty
-- [ ] **6.4** Implement loading states, error states, and progress indicators
-- [ ] **6.5** Apply production-quality styling (Angular Material or Tailwind)
-- [ ] **6.6** Add routing: `/people`, `/people/:name`, `/duties/:name`
+- [x] **6.1** Scaffold Angular project in `src/ui/`
+- [x] **6.2** Create core services:
+  - [x] `PersonService` — calls `/Person` endpoints
+  - [x] `AstronautDutyService` — calls `/AstronautDuty` endpoints
+- [x] **6.3** Create components:
+  - [x] `PeopleListComponent` — displays all people
+  - [x] `PersonDetailComponent` — displays person + astronaut info
+  - [x] `DutyHistoryComponent` — displays duty timeline
+  - [x] `AddDutyFormComponent` — form to add new astronaut duty
+- [x] **6.4** Implement loading states, error states, and progress indicators
+- [x] **6.5** Apply production-quality styling (Angular Material or Tailwind)
+- [x] **6.6** Add routing: `/people`, `/people/:name`, `/duties/:name`
 
 ---
 
