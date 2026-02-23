@@ -22,6 +22,9 @@ RUN adduser --disabled-password --gecos "" appuser
 
 COPY --from=build /app/publish .
 
+# Create data directory for SQLite and give appuser ownership
+RUN mkdir -p /data && chown appuser:appuser /data
+
 # Set environment variables
 ENV ASPNETCORE_URLS=http://+:5204
 ENV ASPNETCORE_ENVIRONMENT=Production

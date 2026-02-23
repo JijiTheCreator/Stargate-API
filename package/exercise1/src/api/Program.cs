@@ -25,7 +25,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularDev", policy =>
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins(
+                  "http://localhost:4200",  // Angular dev server
+                  "http://localhost"        // Docker nginx UI
+              )
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
@@ -52,12 +55,16 @@ builder.Services.AddMediatR(cfg =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// 7.4: Auto-apply EF Core migrations on startup (creates DB if missing)
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var db = scope.ServiceProvider.GetRequiredService<StargateContext>();
+    db.Database.Migrate();
 }
+
+// Swagger enabled in all environments (accessible in Docker)
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // 3.1: Global exception handling — catches unhandled exceptions and returns structured JSON
 app.UseMiddleware<GlobalExceptionMiddleware>();
@@ -65,7 +72,8 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 // 4.3: Serilog request logging
 app.UseSerilogRequestLogging();
 
-app.UseHttpsRedirection();
+// HTTPS redirection disabled — Docker runs HTTP internally; TLS handled at reverse proxy
+// app.UseHttpsRedirection();
 
 // 3.4: Enable CORS before authorization
 app.UseCors("AllowAngularDev");
@@ -73,5 +81,8 @@ app.UseCors("AllowAngularDev");
 app.UseAuthorization();
 
 app.MapControllers();
+
+// 7.5: Health check endpoint for Docker healthcheck
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
 app.Run();

@@ -27,5 +27,6 @@ coverage/
 TestResults/
 
 # Environment
+.env
 .env.local
 .env.production

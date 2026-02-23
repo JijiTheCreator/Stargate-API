@@ -22,6 +22,14 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy built Angular app from build stage
 COPY --from=build /app/dist/stargate-ui/browser /usr/share/nginx/html
 
+# Prepare directories for non-root nginx
+RUN chown -R appuser:appuser /var/cache/nginx \
+    && chown -R appuser:appuser /var/log/nginx \
+    && chown -R appuser:appuser /etc/nginx/conf.d \
+    && chown -R appuser:appuser /usr/share/nginx/html \
+    && touch /var/run/nginx.pid \
+    && chown appuser:appuser /var/run/nginx.pid
+
 # Switch to non-root user
 USER appuser
 
@@ -29,3 +37,5 @@ EXPOSE 80
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 \
     CMD wget -q --spider http://localhost:80/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]

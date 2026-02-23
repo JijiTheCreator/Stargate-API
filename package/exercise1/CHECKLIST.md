@@ -100,12 +100,12 @@
 
 ## Phase 7: Docker & Deployment
 
-- [ ] **7.1** Create `src/api/Dockerfile` (multi-stage .NET build)
-- [ ] **7.2** Create `src/ui/Dockerfile` (multi-stage Angular build + Nginx)
-- [ ] **7.3** Create `docker-compose.yml` orchestrating API + UI
-- [ ] **7.4** Database auto-generation on container startup (EF migrations)
-- [ ] **7.5** Health check endpoints
-- [ ] **7.6** Environment variable configuration
+- [x] **7.1** Create `src/api/Dockerfile` (multi-stage .NET build)
+- [x] **7.2** Create `src/ui/Dockerfile` (multi-stage Angular build + Nginx)
+- [x] **7.3** Create `docker-compose.yml` orchestrating API + UI
+- [x] **7.4** Database auto-generation on container startup (EF migrations)
+- [x] **7.5** Health check endpoints
+- [x] **7.6** Environment variable configuration
 - [ ] **7.7** Verify end-to-end launch: `docker-compose up`
 
 ---

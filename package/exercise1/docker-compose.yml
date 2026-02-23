@@ -18,6 +18,8 @@ services:
     container_name: stargate-api
     ports:
       - "5204:5204"
+    env_file:
+      - .env
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__StarbaseApiDatabase=Data Source=/data/starbase.db
@@ -32,28 +34,27 @@ services:
       retries: 3
       start_period: 15s
     restart: unless-stopped
+
   # ---------------------------------------------------------------------------
   # UI — Angular Application (served via Nginx)
   # ---------------------------------------------------------------------------
-  # NOTE: Uncomment once Angular app is scaffolded (Phase 6)
-  #
-  # ui:
-  #   build:
-  #     context: ./src/ui
-  #     dockerfile: Dockerfile
-  #   container_name: stargate-ui
-  #   ports:
-  #     - "4200:80"
-  #   networks:
-  #     - stargate-network
-  #   depends_on:
-  #     api:
-  #       condition: service_healthy
-  #   restart: unless-stopped
+  ui:
+    build:
+      context: ./src/ui
+      dockerfile: Dockerfile
+    container_name: stargate-ui
+    ports:
+      - "4200:80"
+    networks:
+      - stargate-network
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
 
-  # =============================================================================
-  # Volumes
-  # =============================================================================
+# =============================================================================
+# Volumes
+# =============================================================================
 volumes:
   stargate-db:
     driver: local
