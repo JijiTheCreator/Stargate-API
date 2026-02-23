@@ -24,7 +24,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__StarbaseApiDatabase=Data Source=/data/starbase.db
     volumes:
-      - stargate-db:/data
+      - ./data:/data
     networks:
       - stargate-network
     healthcheck:
@@ -51,13 +51,6 @@ services:
       api:
         condition: service_healthy
     restart: unless-stopped
-
-# =============================================================================
-# Volumes
-# =============================================================================
-volumes:
-  stargate-db:
-    driver: local
 
 # =============================================================================
 # Networks

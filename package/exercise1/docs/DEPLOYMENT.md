@@ -169,19 +169,39 @@ docker-compose up -d
 ### Full clean restart
 
 ```bash
-docker-compose down -v          # Removes volumes (WARNING: deletes database)
+docker-compose down -v          # Removes Docker volumes (networks etc)
+# Note: Bind mounts like ./data are NOT removed by -v
+rm -rf ./data                   # Manually delete to full reset DB
 docker-compose up --build -d    # Rebuilds from source
 ```
 
 > [!CAUTION]
-> `docker-compose down -v` removes the SQLite database volume. All data is lost. Only use for a full reset.
+> Deleting the `./data` folder manually or running `docker-compose down -v` followed by an `rm` will lose all astronaut career history.
 
-### Database backup
+### 7.3 Database Persistence & Backup
 
-```bash
-# Copy the SQLite file from the running container
-docker cp stargate-api:/data/starbase.db ./starbase-backup.db
-```
+The system uses a **bind mount** to persist the SQLite database on your host machine.
+
+- **Storage Location**: `./package/exercise1/data/starbase.db`
+- **Persistence**: Even if you stop the containers or run `docker-compose down`, the data remains in this folder.
+
+**To Backup**:
+Simply copy the `./data/starbase.db` file from your host machine to a safe location.
+
+---
+
+## 8. Database Access (Direct)
+
+Since the database is a physical file mapped to your host, you can access it directly without entering the container.
+
+### VS Code (Recommended)
+1. Install the **"SQLite Viewer"** extension.
+2. Open `package/exercise1/data/starbase.db` in VS Code.
+
+### External Tools (DBeaver, DB Browser)
+1. Open your SQLite-compatible tool.
+2. "Open Database" and select the file at:
+   `C:\...\tech_exercise\package\exercise1\data\starbase.db`
 
 ---
 

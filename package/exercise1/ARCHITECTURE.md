@@ -25,6 +25,8 @@ exercise1/                                  # Monorepo root
 │   ├── DOCUMENTATION.md
 │   ├── QA.md
 │   └── CYBERSECURITY.md
+├── data/                                  # Persistent SQLite storage (bind mount)
+│   └── starbase.db
 ├── src/
 │   ├── api/                               # .NET 8 Web API
 │   │   ├── Dockerfile                     # Multi-stage .NET build

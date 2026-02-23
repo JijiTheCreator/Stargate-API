@@ -128,6 +128,9 @@ docker-compose up --build
 | UI | [http://localhost:4200](http://localhost:4200) |
 | Health | [http://localhost:5204/health](http://localhost:5204/health) |
 
+> [!TIP]
+> **Persistent Storage**: When running in Docker, the database is mapped to a local `./data` folder. You can open `./data/starbase.db` with any SQLite tool (like VS Code's "SQLite Viewer") to inspect data in real-time.
+
 To tear down:
 
 ```bash

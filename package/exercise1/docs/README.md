@@ -132,6 +132,7 @@ exercise1/
 │   ├── DEVOPS_DOCKER.md
 │   ├── DOCUMENTATION.md
 │   └── QA.md
+├── data/                              # Persistent SQLite storage
 ├── src/
 │   ├── api/                           # .NET 8 Web API
 │   │   ├── Controllers/               # REST endpoints
