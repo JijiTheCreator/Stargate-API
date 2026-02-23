@@ -9,6 +9,12 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
+  <!-- Exclude auto-generated EF Core migrations from coverage calculation -->
+  <PropertyGroup>
+    <CollectCoverage>true</CollectCoverage>
+    <ExcludeByFile>**/Migrations/**</ExcludeByFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

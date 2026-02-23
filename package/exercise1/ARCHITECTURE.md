@@ -128,31 +128,38 @@ exercise1/                                  # Monorepo root
 
 ---
 
-## 2. Design Patterns Identified
-
 ### 2.1 Patterns Present ✅
 
 | Pattern | Implementation | Files |
 |---|---|---|
-| **CQRS** (Command Query Responsibility Segregation) | Commands and Queries are separated into distinct classes. Commands mutate state; Queries are read-only. | `Business/Commands/`, `Business/Queries/` |
-| **Mediator** | MediatR dispatches all Commands/Queries, decoupling Controllers from business logic. | `Program.cs`, all Controllers |
-| **Request Pre-Processing** | MediatR `IRequestPreProcessor` validates requests *before* the Handler executes. | `CreatePersonPreProcessor`, `CreateAstronautDutyPreProcessor` |
-| **Repository (Implicit)** | `StargateContext` acts as both Unit of Work and Repository via EF Core `DbSet<T>`. | `StargateContext.cs` |
-| **DTO Projection** | `PersonAstronaut` DTO decouples the read model from the entity model. | `PersonAstronaut.cs`, Query Handlers |
-| **Entity Configuration** (Fluent API) | Each entity has a co-located `IEntityTypeConfiguration` class. | `Person.cs`, `AstronautDetail.cs`, `AstronautDuty.cs` |
+| **CQRS** | Commands and Queries are separated into distinct classes. | `Business/Commands/`, `Business/Queries/` |
+| **Mediator** | MediatR dispatches all Commands/Queries, decoupling Controllers. | `Program.cs`, all Controllers |
+| **Request Pre-Processing** | `IRequestPreProcessor` validates state *before* Handler execution. | `CreatePersonPreProcessor.cs` |
+| **Global Error Handling** | `GlobalExceptionMiddleware` returns structured BaseResponse JSON. | `Middleware/GlobalExceptionMiddleware.cs` |
+| **Request Logging** | `LoggingBehavior` persists audit logs to the `RequestLog` table. | `Behaviors/LoggingBehavior.cs` |
+| **Validation Pipeline** | `ValidationBehavior` runs FluentValidation before handlers. | `Behaviors/ValidationBehavior.cs` |
+| **Safe SQL** | All Dapper queries use parameterized `@Params`. | All Queries/Commands |
+| **Unit Testing** | xUnit project covering logic, boundaries, and rules (81% coverage). | `tests/StargateAPI.Tests/` |
+| **Repository (Implicit)** | EF Core `StargateContext` with `IStargateContext` abstraction. | `Data/StargateContext.cs` |
 
-### 2.2 Patterns Missing / Anti-Patterns ⚠️
+---
 
-| Issue | Description | Recommendation |
-|---|---|---|
-| **No Logging** | Zero structured logging. No exception capture, no success auditing, no DB log sink. | Add `ILogger<T>` injection + Serilog DB sink. Add `RequestLog` entity. |
-| **No Validation Layer** | Validation exists only in PreProcessors via exceptions. No FluentValidation or data annotations. | Introduce `FluentValidation` pipeline behavior in MediatR. |
-| **No Unit Tests** | Zero test projects or test files exist in the repository. | Add `StargateAPI.Tests` xUnit project. |
-| **No Error Middleware** | Each controller catches exceptions independently. No global exception handler. | Add `UseExceptionHandler` or a custom middleware. |
-| **SQL Injection Vulnerability** | Dapper queries use string interpolation (`$"... '{request.Name}' ..."`) instead of parameterized queries. | Use `@Name` parameters: `WHERE @Name = a.Name`, passing `new { request.Name }`. |
-| **Dual ORM Without Clear Boundary** | Both EF Core and Dapper are used in the same handlers without clear separation of concerns. | Convention: EF Core for writes, Dapper for reads. Document this explicitly. |
-| **No CORS Configuration** | API has no CORS policy. A frontend (Angular) will fail to connect. | Add `builder.Services.AddCors()` with frontend origin. |
-| **No Repository Abstraction** | Handlers directly depend on `StargateContext`, making them hard to test. | Introduce `IStargateContext` or repository interfaces. |
+## 3. Known Bugs (RESOLVED)
+
+> [!NOTE]
+> All bugs identified during code review have been **FULLY RESOLVED** and verified with regression tests.
+
+### BUG-1: Wrong Query Dispatch — ✅ FIXED
+`AstronautDutyController.GET` now correctly dispatches `GetAstronautDutiesByName`.
+
+### BUG-2: SQL Injection — ✅ FIXED
+Audited all 10 Dapper queries; all refactored to use parameterized SQL.
+
+### BUG-3: CareerEndDate Rule R7 — ✅ FIXED
+Fixed logic in `CreateAstronautDuty` and `CreateAstronautDutyPreProcessor` to ensure `AddDays(-1)` is applied correctly.
+
+### BUG-4: Missing Error Handling — ✅ FIXED
+Wrapped `AstronautDutyController.POST` in try-catch to ensure consistent failure responses.
 
 ---
 

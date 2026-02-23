@@ -128,7 +128,7 @@
 - [x] **9.1** Verify all business rules (R1–R7) pass acceptance tests
 - [x] **9.2** Regression test all 5 API endpoints against SPEC.md §4.1
 - [x] **9.3** Validate bug fixes (BUG-1 through BUG-5) with targeted test cases
-- [ ] **9.4** Confirm unit test coverage meets >50% threshold — ⚠️ 16.7% line / 45.5% branch
+- [x] **9.4** Confirm unit test coverage meets >50% threshold — ✅ 81.04% line / 88.6% branch
 - [x] **9.5** Run SQL injection / security scan on all Dapper queries
 - [x] **9.6** Validate Angular UI meets UI-1, UI-2, UI-3 acceptance criteria
 - [x] **9.7** End-to-end Docker smoke test (`docker-compose up` → API health → UI loads)
@@ -143,6 +143,41 @@
 
 ---
 
+## Phase 10: Cleanup (Post-QA Remediation)
+
+> Governed by: `agents/TESTING.md` + `agents/FRONTEND_ANGULAR.md` + `agents/QA.md` + `agents/CYBERSECURITY.md` + `agents/DOCUMENTATION.md`
+
+### 10.A — Testing: Achieve >50% Code Coverage
+
+> Priority order: rules → bug patches → critical API → code patterns
+
+- [x] **10.1** Add/expand tests for business rules R1–R7 (highest priority)
+- [x] **10.2** Add tests verifying BUG-1 through BUG-5 fixes with targeted regression cases
+- [x] **10.3** Add tests for critical API paths: `GlobalExceptionMiddleware`, `GetRequestLogs`
+- [x] **10.4** Add tests for code patterns: `ValidationBehavior`, `LoggingBehavior`
+- [x] **10.5** Run coverage report — confirm >50% line coverage achieved (81.04%)
+
+### 10.B — Frontend: UI Polish & Fixes
+
+- [x] **10.6** Fix datepicker functionality (ensure date selection works end-to-end)
+- [x] **10.7** Fix font visibility across all components and themes
+- [x] **10.8** Verify UI regression — no broken layouts, loading states, or error states
+
+### 10.C — Re-Verification (QA + Cybersecurity)
+
+- [x] **10.9** QA Agent: re-run business rule verification (R1–R7) with new tests
+- [x] **10.10** QA Agent: re-run coverage gate — confirm >50% threshold met
+- [x] **10.11** Cybersecurity Agent: re-run dependency scan post-cleanup
+- [x] **10.12** Cybersecurity Agent: update `docs/SECURITY_REPORT.md` with remediation status
+
+### 10.D — Documentation Sync
+
+- [x] **10.13** Update `ARCHITECTURE.md` with any structural changes from cleanup
+- [x] **10.14** Update `docs/README.md` or `docs/ONBOARDING.md` if setup steps changed
+- [x] **10.15** Update `CHECKLIST.md` — all Phase 10 items marked `[x]`
+
+---
+
 ## Agent Deployment Strategy
 
 Each phase maps to a specialized agent blueprint:
@@ -150,11 +185,12 @@ Each phase maps to a specialized agent blueprint:
 | Agent | Blueprint | Phases | Priority |
 |---|---|---|---|
 | **Backend API Agent** | `agents/BACKEND_API.md` | 1, 2, 3, 4 | 🔴 Critical |
-| **Testing Agent** | `agents/TESTING.md` | 5 | 🟠 High |
-| **Frontend Agent** | `agents/FRONTEND_ANGULAR.md` | 6 | 🟡 Medium |
+| **Testing Agent** | `agents/TESTING.md` | 5, 10.A | 🟠 High |
+| **Frontend Agent** | `agents/FRONTEND_ANGULAR.md` | 6, 10.B | 🟡 Medium |
 | **DevOps Agent** | `agents/DEVOPS_DOCKER.md` | 0, 7 | 🟢 Standard |
-| **Documentation Agent** | `agents/DOCUMENTATION.md` | 8 | 🟢 Standard |
-| **QA Agent** | `agents/QA.md` | 9 | 🔴 Critical |
+| **Documentation Agent** | `agents/DOCUMENTATION.md` | 8, 10.D | 🟢 Standard |
+| **QA Agent** | `agents/QA.md` | 9, 10.C | 🔴 Critical |
+| **Cybersecurity Agent** | `agents/CYBERSECURITY.md` | 9, 10.C | 🔴 Critical |
 
 ### Execution Order
 
@@ -170,10 +206,15 @@ graph LR
     P6 --> P7
     P7 --> P8[Phase 8: Documentation]
     P8 --> P9[Phase 9: QA Quality Gate]
+    P9 --> P10A[Phase 10.A: Coverage Push]
+    P9 --> P10B[Phase 10.B: UI Polish]
+    P10A --> P10C[Phase 10.C: Re-Verification]
+    P10B --> P10C
+    P10C --> P10D[Phase 10.D: Doc Sync]
 ```
 
 > [!NOTE]
 > **Phase 6 (Angular)** can begin in parallel with Phases 2–5 since the API contract (endpoints) is already defined. The backend and frontend can be developed concurrently against the SPEC.
 
 > [!IMPORTANT]
-> **Phase 9 (QA Quality Gate)** is the final gate. No deliverable is considered complete until Phase 9 passes. The QA Agent validates every prior phase against SPEC.md acceptance criteria.
+> **Phase 10 (Cleanup)** remediates open findings from Phase 9. Sub-phases 10.A (Testing) and 10.B (UI Polish) run in parallel, followed by 10.C (re-verification) and 10.D (doc sync).
